@@ -33,16 +33,69 @@ go version
 
 # Routes
 
+import (
+	"github.com/gorilla/mux"
+	"github.com/lyfeytech/MYSQL-ATCBank/pkg/controllers"
+)
+
+var RegisterBankRoutes = func (router *mux.Router){
+	router.HandleFunc("/account/", controllers.CreateAccount).Methods("POST")
+	router.HandleFunc("/account/", controllers.GetAccount).Methods("GET")
+	router.HandleFunc("/account/{customerId}", controllers.GetAccountById).Methods("GET")
+	router.HandleFunc("/account/{customerId}", controllers.UpdateAccount).Methods("PUT")
+	router.HandleFunc("/account/{customerId}", controllers.DeleteAccount).Methods("DELETE")
+
+}
+
 # Controllers
+
+import(
+	"encoding/json"
+	"fmt"
+	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
+	"github.com/lyfeytech/MYSQL-ATCBank/pkg/utils"
+	"github.com/lyfeytech/MYSQL-ATCBank/pkg/models"
+)
 
 # Models
 
+import (
+	"github.com/jinzhu/gorm"
+	"github.com/lyfeytech/MYSQL-ATCBank/pkg/config"
+)
+
+var db *gorm.DB
+
 # Config
 
+import (
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+)
+
+var (
+	db * gorm.DB
+)
+
+# Utils
+
+import(
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
+)
+
+func ParseBody(r *http.Request, x interface{}){
+	if body, err := ioutil.ReadAll(r.Body); err == nil{
+		if err := json.Unmarshal([]byte(body), x); err != nil{
+			return
+		}
+	}
+}
+
 # Main
-
-
-# package main
 
 import(
 	"log"
